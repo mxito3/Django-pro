@@ -1,0 +1,9 @@
+1.安装libevent 
+	sudo apt-get install libevent-dev
+2.安装memcached
+	sudo apt install memcached
+3.启动memcached
+	memcached -d -m 512  #最大使用512M,-d服务形式启动
+４．安装连接器
+	pip install python-memcached
+文档：https://docs.djangoproject.com/en/1.8/topics/cache/
