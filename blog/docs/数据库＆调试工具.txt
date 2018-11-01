@@ -1,0 +1,12 @@
+pip install django-debug-toolbar
+
+要使得debug-toolbar有效,必须：
+	1. 
+		1.8.*弃用了，用更高的版本(用django-admin重新建立项目)
+	2.
+		INTERNAL_IPS = ('127.0.0.1',)  # 只有设置了这个才会显示
+　　　　3. 
+		安装中间件debug_toolbar.middleware.DebugToolbarMiddleware		
+		必须尽可能放在中间件列表的前面但是不要在编码响应内容的中间件之前。例如GZipMiddleware
+	4.只有有body结构的页面才会出现tool bar 		
+

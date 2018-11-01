@@ -16,10 +16,24 @@ Including another URLconf
 
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.conf import settings
+from django.urls import include, path  # For django versions from 2.0 and up
+
 from blog import views
+
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', admin.site.urls),
     url(r'^test/', views.test, name='test'),
     url(r'^$', views.index, name='home'),
 ]
 # handler404 = 'blog.views.my_custom_page_not_found'
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+
+        # For django versions before 2.0:
+        # url(r'^__debug__/', include(debug_toolbar.urls)),
+
+    ] + urlpatterns
