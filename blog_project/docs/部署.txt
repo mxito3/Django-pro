@@ -1,1 +1,44 @@
-部署
+1.nginx + gunicorn
+
+nginx配置
+
+server {
+    listen 80;
+    server_name blog_test;
+    server_name_in_redirect off;
+    access_log /home/yapie/github/Django-pro/nginx.access.log;
+    error_log /home/yapie/github/Django-pro/nginx.error.log;
+
+    location / {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_pass_header       Authorization;
+        proxy_pass_header       WWW-Authenticate;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+    #用alias，路径需要填到static下
+    location /static/ {
+        alias /home/yapie/github/Django-pro/blog_project/static/;
+    }
+    #用root,路径写到根目录即可
+    #location /static/ {
+     #   root /home/yapie/github/Django-pro/blog_project/;
+    #}
+}
+2.gunicorn开启
+    可以用配置文件也可以用命令
+        命令的方式:nohup gunicorn 项目名.wsgi:application -b 127.0.0.1:8000 &
+        　　　　-b是bind的缩写
+
+3.admin页面找不到静态资源
+
+    settings.py设置staticroot=os.join(BASEDIR,'collected')
+    之后运行python manage.py collectstatic
+    之后将collected下的admin文件夹复制到static目录下
+
+
+4.installed_app要加上gunicorn
+
+
+
